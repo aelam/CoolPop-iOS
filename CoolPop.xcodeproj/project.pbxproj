@@ -1,0 +1,328 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		946DB6A016B7C29300A09417 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 946DB69F16B7C29300A09417 /* UIKit.framework */; };
+		946DB6A216B7C29300A09417 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 946DB6A116B7C29300A09417 /* Foundation.framework */; };
+		946DB6A416B7C29300A09417 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 946DB6A316B7C29300A09417 /* CoreGraphics.framework */; };
+		946DB6AA16B7C29300A09417 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 946DB6A816B7C29300A09417 /* InfoPlist.strings */; };
+		946DB6AC16B7C29300A09417 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 946DB6AB16B7C29300A09417 /* main.m */; };
+		946DB6B016B7C29300A09417 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 946DB6AF16B7C29300A09417 /* AppDelegate.m */; };
+		946DB6B216B7C29300A09417 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 946DB6B116B7C29300A09417 /* Default.png */; };
+		946DB6B416B7C29300A09417 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 946DB6B316B7C29300A09417 /* Default@2x.png */; };
+		946DB6B616B7C29300A09417 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 946DB6B516B7C29300A09417 /* Default-568h@2x.png */; };
+		946DB6B916B7C29300A09417 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 946DB6B816B7C29300A09417 /* ViewController.m */; };
+		946DB6BC16B7C29300A09417 /* ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 946DB6BA16B7C29300A09417 /* ViewController.xib */; };
+		946DB6D616B7D86800A09417 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 946DB6D516B7D86800A09417 /* QuartzCore.framework */; };
+		948D868A16B825C900561BDC /* NSObject+AssociativeObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 948D868516B825C900561BDC /* NSObject+AssociativeObject.m */; };
+		948D868B16B825C900561BDC /* UIImage+GenerateFromView.m in Sources */ = {isa = PBXBuildFile; fileRef = 948D868716B825C900561BDC /* UIImage+GenerateFromView.m */; };
+		948D868C16B825C900561BDC /* UISwipeNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 948D868916B825C900561BDC /* UISwipeNavigationController.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		946DB69B16B7C29300A09417 /* CoolPop.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CoolPop.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		946DB69F16B7C29300A09417 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		946DB6A116B7C29300A09417 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		946DB6A316B7C29300A09417 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		946DB6A716B7C29300A09417 /* CoolPop-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CoolPop-Info.plist"; sourceTree = "<group>"; };
+		946DB6A916B7C29300A09417 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		946DB6AB16B7C29300A09417 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		946DB6AD16B7C29300A09417 /* CoolPop-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CoolPop-Prefix.pch"; sourceTree = "<group>"; };
+		946DB6AE16B7C29300A09417 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		946DB6AF16B7C29300A09417 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		946DB6B116B7C29300A09417 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		946DB6B316B7C29300A09417 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		946DB6B516B7C29300A09417 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		946DB6B716B7C29300A09417 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		946DB6B816B7C29300A09417 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		946DB6BB16B7C29300A09417 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ViewController.xib; sourceTree = "<group>"; };
+		946DB6D516B7D86800A09417 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		948D868416B825C900561BDC /* NSObject+AssociativeObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+AssociativeObject.h"; sourceTree = "<group>"; };
+		948D868516B825C900561BDC /* NSObject+AssociativeObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+AssociativeObject.m"; sourceTree = "<group>"; };
+		948D868616B825C900561BDC /* UIImage+GenerateFromView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+GenerateFromView.h"; sourceTree = "<group>"; };
+		948D868716B825C900561BDC /* UIImage+GenerateFromView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+GenerateFromView.m"; sourceTree = "<group>"; };
+		948D868816B825C900561BDC /* UISwipeNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UISwipeNavigationController.h; sourceTree = "<group>"; };
+		948D868916B825C900561BDC /* UISwipeNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UISwipeNavigationController.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		946DB69816B7C29300A09417 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				946DB6A016B7C29300A09417 /* UIKit.framework in Frameworks */,
+				946DB6A216B7C29300A09417 /* Foundation.framework in Frameworks */,
+				946DB6A416B7C29300A09417 /* CoreGraphics.framework in Frameworks */,
+				946DB6D616B7D86800A09417 /* QuartzCore.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		946DB69016B7C29300A09417 = {
+			isa = PBXGroup;
+			children = (
+				946DB6A516B7C29300A09417 /* CoolPop */,
+				946DB69E16B7C29300A09417 /* Frameworks */,
+				946DB69C16B7C29300A09417 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		946DB69C16B7C29300A09417 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				946DB69B16B7C29300A09417 /* CoolPop.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		946DB69E16B7C29300A09417 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				946DB6D516B7D86800A09417 /* QuartzCore.framework */,
+				946DB69F16B7C29300A09417 /* UIKit.framework */,
+				946DB6A116B7C29300A09417 /* Foundation.framework */,
+				946DB6A316B7C29300A09417 /* CoreGraphics.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		946DB6A516B7C29300A09417 /* CoolPop */ = {
+			isa = PBXGroup;
+			children = (
+				948D868316B825C900561BDC /* UISwipeNavigaionController */,
+				946DB6AE16B7C29300A09417 /* AppDelegate.h */,
+				946DB6AF16B7C29300A09417 /* AppDelegate.m */,
+				946DB6B716B7C29300A09417 /* ViewController.h */,
+				946DB6B816B7C29300A09417 /* ViewController.m */,
+				946DB6BA16B7C29300A09417 /* ViewController.xib */,
+				946DB6A616B7C29300A09417 /* Supporting Files */,
+			);
+			path = CoolPop;
+			sourceTree = "<group>";
+		};
+		946DB6A616B7C29300A09417 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				946DB6A716B7C29300A09417 /* CoolPop-Info.plist */,
+				946DB6A816B7C29300A09417 /* InfoPlist.strings */,
+				946DB6AB16B7C29300A09417 /* main.m */,
+				946DB6AD16B7C29300A09417 /* CoolPop-Prefix.pch */,
+				946DB6B116B7C29300A09417 /* Default.png */,
+				946DB6B316B7C29300A09417 /* Default@2x.png */,
+				946DB6B516B7C29300A09417 /* Default-568h@2x.png */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		948D868316B825C900561BDC /* UISwipeNavigaionController */ = {
+			isa = PBXGroup;
+			children = (
+				948D868416B825C900561BDC /* NSObject+AssociativeObject.h */,
+				948D868516B825C900561BDC /* NSObject+AssociativeObject.m */,
+				948D868616B825C900561BDC /* UIImage+GenerateFromView.h */,
+				948D868716B825C900561BDC /* UIImage+GenerateFromView.m */,
+				948D868816B825C900561BDC /* UISwipeNavigationController.h */,
+				948D868916B825C900561BDC /* UISwipeNavigationController.m */,
+			);
+			path = UISwipeNavigaionController;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		946DB69A16B7C29300A09417 /* CoolPop */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 946DB6BF16B7C29300A09417 /* Build configuration list for PBXNativeTarget "CoolPop" */;
+			buildPhases = (
+				946DB69716B7C29300A09417 /* Sources */,
+				946DB69816B7C29300A09417 /* Frameworks */,
+				946DB69916B7C29300A09417 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = CoolPop;
+			productName = CoolPop;
+			productReference = 946DB69B16B7C29300A09417 /* CoolPop.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		946DB69216B7C29300A09417 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0450;
+				ORGANIZATIONNAME = ryan;
+			};
+			buildConfigurationList = 946DB69516B7C29300A09417 /* Build configuration list for PBXProject "CoolPop" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 946DB69016B7C29300A09417;
+			productRefGroup = 946DB69C16B7C29300A09417 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				946DB69A16B7C29300A09417 /* CoolPop */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		946DB69916B7C29300A09417 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				946DB6AA16B7C29300A09417 /* InfoPlist.strings in Resources */,
+				946DB6B216B7C29300A09417 /* Default.png in Resources */,
+				946DB6B416B7C29300A09417 /* Default@2x.png in Resources */,
+				946DB6B616B7C29300A09417 /* Default-568h@2x.png in Resources */,
+				946DB6BC16B7C29300A09417 /* ViewController.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		946DB69716B7C29300A09417 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				946DB6AC16B7C29300A09417 /* main.m in Sources */,
+				946DB6B016B7C29300A09417 /* AppDelegate.m in Sources */,
+				946DB6B916B7C29300A09417 /* ViewController.m in Sources */,
+				948D868A16B825C900561BDC /* NSObject+AssociativeObject.m in Sources */,
+				948D868B16B825C900561BDC /* UIImage+GenerateFromView.m in Sources */,
+				948D868C16B825C900561BDC /* UISwipeNavigationController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		946DB6A816B7C29300A09417 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				946DB6A916B7C29300A09417 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		946DB6BA16B7C29300A09417 /* ViewController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				946DB6BB16B7C29300A09417 /* en */,
+			);
+			name = ViewController.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		946DB6BD16B7C29300A09417 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		946DB6BE16B7C29300A09417 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		946DB6C016B7C29300A09417 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "CoolPop/CoolPop-Prefix.pch";
+				INFOPLIST_FILE = "CoolPop/CoolPop-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		946DB6C116B7C29300A09417 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "CoolPop/CoolPop-Prefix.pch";
+				INFOPLIST_FILE = "CoolPop/CoolPop-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		946DB69516B7C29300A09417 /* Build configuration list for PBXProject "CoolPop" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				946DB6BD16B7C29300A09417 /* Debug */,
+				946DB6BE16B7C29300A09417 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		946DB6BF16B7C29300A09417 /* Build configuration list for PBXNativeTarget "CoolPop" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				946DB6C016B7C29300A09417 /* Debug */,
+				946DB6C116B7C29300A09417 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 946DB69216B7C29300A09417 /* Project object */;
+}
