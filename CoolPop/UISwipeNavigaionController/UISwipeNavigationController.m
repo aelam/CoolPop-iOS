@@ -33,6 +33,17 @@ static NSString *const snapShotViewKey = @"snapShotViewKey";
 
 @synthesize originFrame = _originFrame;
 
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    
+    CAGradientLayer *shadow = [CAGradientLayer layer];
+    shadow.frame = CGRectMake(-10, 0, 10, self.view.frame.size.height);
+    shadow.startPoint = CGPointMake(1.0, 0.5);
+    shadow.endPoint = CGPointMake(0, 0.5);
+    shadow.colors = [NSArray arrayWithObjects:(id)[[UIColor colorWithWhite:0.0 alpha:0.3f] CGColor], (id)[[UIColor clearColor] CGColor], nil];
+    [self.view.layer addSublayer:shadow];
+
+}
 
 - (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated {
     if ([self.viewControllers count]> 0 && [viewController respondsToSelector:@selector(isSupportSwipePop)]) {
@@ -82,6 +93,7 @@ static NSString *const snapShotViewKey = @"snapShotViewKey";
         [self.view.superview addSubview:imageView];
         [self.view.superview bringSubviewToFront:self.view];
         imageView.transform = CGAffineTransformMakeScale(kStartZoomRate,kStartZoomRate);
+        
     }
 
     float r = CGRectGetMinX(self.view.frame) / CGRectGetWidth(self.view.frame);
@@ -168,16 +180,14 @@ static NSString *const snapShotViewKey = @"snapShotViewKey";
     self.view.frame = self.originFrame;
 }
 
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-	// Do any additional setup after loading the view.
-}
-
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)dealloc {
+    [super dealloc];
 }
 
 @end

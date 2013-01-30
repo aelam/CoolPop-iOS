@@ -22,12 +22,10 @@
     }
     
     CGContextRef context = UIGraphicsGetCurrentContext();
-    CGContextScaleCTM(context, 1.0 / scale, 1.0 / scale);
+    CGContextScaleCTM(context, scale, scale);
 
     [aView.layer renderInContext:context];
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
-    NSData *imageData = UIImagePNGRepresentation(image);
-    [imageData writeToFile:@"/Users/ryan/Desktop/helo.png" atomically:YES];
     UIGraphicsEndImageContext();
     
     return image;
