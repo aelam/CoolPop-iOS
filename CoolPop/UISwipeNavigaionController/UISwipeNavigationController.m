@@ -26,9 +26,16 @@ static NSString *const snapShotViewKey = @"snapShotViewKey";
 
 @property (nonatomic, assign) CGRect originFrame;
 @property (nonatomic, retain) UIImageView *leftSnapshotView;
+@property (nonatomic, assign) CGPoint previousPoint;
+@property (nonatomic, assign) CGPoint firstPoint;
+
 - (BOOL)isNeedSwipeResponse;
 - (void)shresholdJudge;
-- (void)dragAnimationFinished;
+- (void)dragAnimationFinished:(BOOL)popSuccess;
+
+- (NSString *)snapshotPathForController:(UIViewController *)controller;
+- (UIImageView *)leftSnapshotView;
+- (void)resetLeftSnapshotView;
 
 
 @end
@@ -37,6 +44,8 @@ static NSString *const snapShotViewKey = @"snapShotViewKey";
 
 @synthesize originFrame = _originFrame;
 @synthesize leftSnapshotView = _leftSnapshotView;
+@synthesize previousPoint = _previousPoint;
+@synthesize firstPoint = _firstPoint;
 
 + (NSString *)snapshotCachePath {
     return [NSHomeDirectory() stringByAppendingString:@"/Library/Caches/PopSnapshots"];
@@ -56,8 +65,40 @@ static NSString *const snapShotViewKey = @"snapShotViewKey";
 
     self.leftSnapshotView.hidden = YES;
 
+    UIPanGestureRecognizer *gestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePan:)];
+    [self.view addGestureRecognizer:gestureRecognizer];
+
 }
 
+
+- (IBAction)handlePan:(UIPanGestureRecognizer *)recognizer {
+    CGPoint currentPoint = [recognizer locationInView:self.view];
+    NSLog(@"currentPoint: %@",NSStringFromCGPoint(currentPoint));
+    CGPoint velocity = [recognizer velocityInView:self.view];
+    NSLog(@"velocity: %@",NSStringFromCGPoint(velocity));
+    NSLog(@"recognizer numberOfTouches] = %d",[recognizer numberOfTouches]);
+
+    if (recognizer.state == UIGestureRecognizerStateBegan) {
+        [self touchesBegan];
+        self.previousPoint = currentPoint;
+        NSLog(@"began");
+    } else if (recognizer.state == UIGestureRecognizerStateEnded
+               || recognizer.state == UIGestureRecognizerStateFailed
+               || recognizer.state == UIGestureRecognizerStateCancelled
+               || recognizer.state == UIGestureRecognizerStateCancelled) {
+        [self touchesEnded];
+    } else if (recognizer.state == UIGestureRecognizerStateChanged) {
+//        CGPoint velocity = [recognizer velocityInView:self.view];
+        
+        [self touchesMovedWithVelocity:velocity currentPoint:currentPoint];
+    }
+    
+}
+
+
+
+#pragma mark -
+#pragma mark - Push Action
 - (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated {
     if ([self.viewControllers count]> 0 && [viewController respondsToSelector:@selector(isSupportSwipePop)]) {
         BOOL returnValue = ((BOOL (*)(id, SEL))objc_msgSend)(viewController, @selector(isSupportSwipePop));
@@ -92,6 +133,97 @@ static NSString *const snapShotViewKey = @"snapShotViewKey";
     return popedController;
 }
 
+
+#pragma mark - 
+#pragma mark - Touch Action
+- (void)touchesBegan {
+    self.originFrame = self.view.frame;
+}
+
+- (void)touchesEnded {
+    if (![self isNeedSwipeResponse]) {
+        return;
+    }
+    
+    [self shresholdJudge];
+}
+
+- (void)touchesMovedWithVelocity:(CGPoint)velocity currentPoint:(CGPoint)currentPoint{
+    CGPoint prevPoint = self.previousPoint;
+    self.previousPoint = currentPoint;
+    NSLog(@"%@ %@",NSStringFromCGPoint(prevPoint),NSStringFromCGPoint(currentPoint));
+    if (![self isNeedSwipeResponse]) {
+        return;
+    }
+    CGFloat x0 =  - self.firstPoint.x + currentPoint.x;
+    
+    if (CGRectGetMinX(self.view.frame) <= 0 && x0 < 0) {
+        return;
+    }
+    CGPoint currentCenter = self.view.center;
+    self.view.center = CGPointMake(currentCenter.x + x0, currentCenter.y);
+    
+    // 前一级ViewController 动画
+    UIViewController *topViewController = self.topViewController;
+    
+    if (![self.view.superview.subviews containsObject:self.leftSnapshotView]) {
+        [self.view.superview addSubview:_leftSnapshotView];
+        [self.view.superview insertSubview:_leftSnapshotView belowSubview:self.view];
+    }
+    
+    if (self.leftSnapshotView.hidden) {
+        self.leftSnapshotView.hidden = NO;
+        UIImage *snapshot = [self snapshotForViewController:topViewController];
+        self.leftSnapshotView.image = snapshot;
+    }
+    
+    float r = CGRectGetMinX(self.view.frame) / CGRectGetWidth(self.view.frame);
+    CGFloat rate = kStartZoomRate + (1 - kStartZoomRate) * r;
+    self.leftSnapshotView.transform = CGAffineTransformMakeScale(rate,rate);
+    self.leftSnapshotView.layer.mask.backgroundColor = [UIColor colorWithWhite:1 alpha:MAX(r, 0.5)].CGColor;
+    
+
+}
+
+- (void)touchesMovedWithPreviousPoint:(CGPoint)previousPoint currentPoint:(CGPoint)currentPoint {
+    if (![self isNeedSwipeResponse]) {
+        return;
+    }
+    
+//    UITouch *touch = [touches anyObject];
+//    CGPoint previousPoint = [touch previousLocationInView:self.view.window];
+//    CGPoint currentPoint = [touch locationInView:self.view.window];
+    CGFloat x0 = currentPoint.x - previousPoint.x;
+    
+    if (CGRectGetMinX(self.view.frame) <= 0 && x0 < 0) {
+        return;
+    }
+    CGPoint currentCenter = self.view.center;
+    self.view.center = CGPointMake(currentCenter.x + x0, currentCenter.y);
+    
+    // 前一级ViewController 动画
+    UIViewController *topViewController = self.topViewController;
+    
+    if (![self.view.superview.subviews containsObject:self.leftSnapshotView]) {
+        [self.view.superview addSubview:_leftSnapshotView];
+        [self.view.superview insertSubview:_leftSnapshotView belowSubview:self.view];
+    }
+    
+    if (self.leftSnapshotView.hidden) {
+        self.leftSnapshotView.hidden = NO;
+        UIImage *snapshot = [self snapshotForViewController:topViewController];
+        self.leftSnapshotView.image = snapshot;
+    }
+    
+    float r = CGRectGetMinX(self.view.frame) / CGRectGetWidth(self.view.frame);
+    CGFloat rate = kStartZoomRate + (1 - kStartZoomRate) * r;
+    self.leftSnapshotView.transform = CGAffineTransformMakeScale(rate,rate);
+    self.leftSnapshotView.layer.mask.backgroundColor = [UIColor colorWithWhite:1 alpha:MAX(r, 0.5)].CGColor;
+    
+
+}
+
+/*
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     self.originFrame = self.view.frame;
 }
@@ -130,9 +262,6 @@ static NSString *const snapShotViewKey = @"snapShotViewKey";
     CGFloat rate = kStartZoomRate + (1 - kStartZoomRate) * r;
     self.leftSnapshotView.transform = CGAffineTransformMakeScale(rate,rate);
     self.leftSnapshotView.layer.mask.backgroundColor = [UIColor colorWithWhite:1 alpha:MAX(r, 0.5)].CGColor;
-
-    NSLog(@"%@",self.leftSnapshotView);
-    
     
 }
 
@@ -152,7 +281,10 @@ static NSString *const snapShotViewKey = @"snapShotViewKey";
     
     [self shresholdJudge];
 }
+ */
 
+
+#pragma mark -
 - (BOOL)isNeedSwipeResponse {
     if ([self.topViewController respondsToSelector:@selector(isSupportSwipePop)]) {
         BOOL returnValue = ((BOOL (*)(id, SEL))objc_msgSend)(self.topViewController, @selector(isSupportSwipePop));
@@ -211,6 +343,8 @@ static NSString *const snapShotViewKey = @"snapShotViewKey";
     self.view.frame = self.originFrame;
 }
 
+#pragma mark - 
+#pragma mark - snapshot
 - (void)saveSnapshot:(UIImage *)image forViewController:(UIViewController *)controller {
 #if CACHE_IN_MEMORY
     [controller setAssociativeObject:image forKey:snapShotKey];    
@@ -256,6 +390,7 @@ static NSString *const snapShotViewKey = @"snapShotViewKey";
     NSString *snapshotPath = [[UISwipeNavigationController snapshotCachePath] stringByAppendingFormat:@"/<%p>.png",controller,nil];
     return snapshotPath;
 }
+
 
 - (UIImageView *)leftSnapshotView {
     if (_leftSnapshotView == nil) {
