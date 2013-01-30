@@ -10,6 +10,7 @@
 #import "UIImage+GenerateFromView.h"
 #import <objc/message.h>
 #import "NSObject+AssociativeObject.h"
+#import <QuartzCore/QuartzCore.h>
 
 static CGFloat kMinThreshold = 140;
 static CGFloat kStartZoomRate = 0.95;
@@ -34,9 +35,7 @@ static NSString *const snapShotViewKey = @"snapShotViewKey";
 
 
 - (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated {
-    
-    
-    if ([viewController respondsToSelector:@selector(isSupportSwipePop)]) {
+    if ([self.viewControllers count]> 0 && [viewController respondsToSelector:@selector(isSupportSwipePop)]) {
         BOOL returnValue = ((BOOL (*)(id, SEL))objc_msgSend)(viewController, @selector(isSupportSwipePop));
         if (returnValue) {
             UIImage *image = [UIImage imageFromUIView:self.view];
@@ -74,15 +73,22 @@ static NSString *const snapShotViewKey = @"snapShotViewKey";
     if (imageView == nil) {
         UIImage *snapshot = [topViewController associativeObjectForKey:snapShotKey];
         imageView = [[[UIImageView alloc] initWithImage:snapshot] autorelease];
+        CALayer *mask = [CALayer layer];
+        mask.frame = imageView.bounds;
+        mask.backgroundColor = [UIColor colorWithWhite:1 alpha:0.5].CGColor;
+        imageView.layer.mask = mask;
+        
         [topViewController setAssociativeObject:imageView forKey:snapShotViewKey];
         [self.view.superview addSubview:imageView];
         [self.view.superview bringSubviewToFront:self.view];
         imageView.transform = CGAffineTransformMakeScale(kStartZoomRate,kStartZoomRate);
     }
 
-    CGFloat rate = kStartZoomRate + (1 - kStartZoomRate) * CGRectGetMinX(self.view.frame) / CGRectGetWidth(self.view.frame);
+    float r = CGRectGetMinX(self.view.frame) / CGRectGetWidth(self.view.frame);
+    CGFloat rate = kStartZoomRate + (1 - kStartZoomRate) * r;
     imageView.transform = CGAffineTransformMakeScale(rate,rate);
-
+    imageView.layer.mask.backgroundColor = [UIColor colorWithWhite:1 alpha:MAX(r, 0.5)].CGColor;
+    
     
 }
 
@@ -129,6 +135,8 @@ static NSString *const snapShotViewKey = @"snapShotViewKey";
             UIViewController *topViewController = self.topViewController;
             UIImageView *imageView = [topViewController associativeObjectForKey:snapShotViewKey];
             imageView.transform = CGAffineTransformIdentity;
+            imageView.layer.mask.backgroundColor = [UIColor colorWithWhite:1 alpha:1].CGColor;
+
         } completion:^(BOOL finished) {
             [self dragAnimationFinished];
             [self popViewControllerAnimated:NO];
@@ -141,6 +149,7 @@ static NSString *const snapShotViewKey = @"snapShotViewKey";
             UIViewController *topViewController = self.topViewController;
             UIImageView *imageView = [topViewController associativeObjectForKey:snapShotViewKey];
             imageView.transform = CGAffineTransformIdentity;
+            imageView.layer.mask.backgroundColor = [UIColor colorWithWhite:1 alpha:1].CGColor;
 
         } completion:^(BOOL finished) {
             [self dragAnimationFinished];

@@ -12,13 +12,22 @@
 @implementation UIImage (GenerateFromView)
 
 + (UIImage *)imageFromUIView:(UIView *)aView {
+    float scale = 1.f;
     CGSize pageSize = aView.frame.size;
-    UIGraphicsBeginImageContext(pageSize);
+    if([[UIScreen mainScreen] respondsToSelector:@selector(scale)]) {
+        scale = [UIScreen mainScreen].scale;
+        UIGraphicsBeginImageContextWithOptions(pageSize, aView.opaque, scale);
+    } else {
+        UIGraphicsBeginImageContext(pageSize);
+    }
     
-    CGContextRef resizedContext = UIGraphicsGetCurrentContext();
-    [aView.layer renderInContext:resizedContext];
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextScaleCTM(context, 1.0 / scale, 1.0 / scale);
+
+    [aView.layer renderInContext:context];
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
-    
+    NSData *imageData = UIImagePNGRepresentation(image);
+    [imageData writeToFile:@"/Users/ryan/Desktop/helo.png" atomically:YES];
     UIGraphicsEndImageContext();
     
     return image;
