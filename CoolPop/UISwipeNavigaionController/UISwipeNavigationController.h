@@ -16,4 +16,6 @@
 
 @interface UISwipeNavigationController : UINavigationController
 
++ (NSString *)snapshotCachePath;
+
 @end

@@ -17,7 +17,6 @@
 		946DB6B416B7C29300A09417 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 946DB6B316B7C29300A09417 /* Default@2x.png */; };
 		946DB6B616B7C29300A09417 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 946DB6B516B7C29300A09417 /* Default-568h@2x.png */; };
 		946DB6B916B7C29300A09417 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 946DB6B816B7C29300A09417 /* ViewController.m */; };
-		946DB6BC16B7C29300A09417 /* ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 946DB6BA16B7C29300A09417 /* ViewController.xib */; };
 		946DB6D616B7D86800A09417 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 946DB6D516B7D86800A09417 /* QuartzCore.framework */; };
 		948D868A16B825C900561BDC /* NSObject+AssociativeObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 948D868516B825C900561BDC /* NSObject+AssociativeObject.m */; };
 		948D868B16B825C900561BDC /* UIImage+GenerateFromView.m in Sources */ = {isa = PBXBuildFile; fileRef = 948D868716B825C900561BDC /* UIImage+GenerateFromView.m */; };
@@ -40,7 +39,6 @@
 		946DB6B516B7C29300A09417 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		946DB6B716B7C29300A09417 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		946DB6B816B7C29300A09417 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
-		946DB6BB16B7C29300A09417 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ViewController.xib; sourceTree = "<group>"; };
 		946DB6D516B7D86800A09417 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		948D868416B825C900561BDC /* NSObject+AssociativeObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+AssociativeObject.h"; sourceTree = "<group>"; };
 		948D868516B825C900561BDC /* NSObject+AssociativeObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+AssociativeObject.m"; sourceTree = "<group>"; };
@@ -101,7 +99,6 @@
 				946DB6AF16B7C29300A09417 /* AppDelegate.m */,
 				946DB6B716B7C29300A09417 /* ViewController.h */,
 				946DB6B816B7C29300A09417 /* ViewController.m */,
-				946DB6BA16B7C29300A09417 /* ViewController.xib */,
 				946DB6A616B7C29300A09417 /* Supporting Files */,
 			);
 			path = CoolPop;
@@ -189,7 +186,6 @@
 				946DB6B216B7C29300A09417 /* Default.png in Resources */,
 				946DB6B416B7C29300A09417 /* Default@2x.png in Resources */,
 				946DB6B616B7C29300A09417 /* Default-568h@2x.png in Resources */,
-				946DB6BC16B7C29300A09417 /* ViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -218,14 +214,6 @@
 				946DB6A916B7C29300A09417 /* en */,
 			);
 			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		946DB6BA16B7C29300A09417 /* ViewController.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				946DB6BB16B7C29300A09417 /* en */,
-			);
-			name = ViewController.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -282,11 +270,15 @@
 		946DB6C016B7C29300A09417 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer: xiang gao (KQSP6CU5AR)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: xiang gao (KQSP6CU5AR)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CoolPop/CoolPop-Prefix.pch";
 				INFOPLIST_FILE = "CoolPop/CoolPop-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "E1DBA534-64BE-454C-8596-248719A65336";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "2D04118E-B952-44CF-AFF7-A5C06C4F0EDF";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
