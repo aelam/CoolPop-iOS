@@ -24,7 +24,12 @@
     _tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
     _tableView.delegate = self;
     _tableView.dataSource = self;
+    _tableView.canCancelContentTouches = YES;
     [self.view addSubview:_tableView];
+    
+//    UIView *aView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 460)];
+//    aView.backgroundColor = [UIColor cyanColor];
+//    [self.view addSubview:aView];
     
     self.view.backgroundColor = [UIColor whiteColor];
 	// Do any additional setup after loading the view, typically from a nib.

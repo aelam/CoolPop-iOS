@@ -63,34 +63,34 @@ static NSString *const snapShotViewKey = @"snapShotViewKey";
     shadow.colors = [NSArray arrayWithObjects:(id)[[UIColor colorWithWhite:0.0 alpha:0.3f] CGColor], (id)[[UIColor clearColor] CGColor], nil];
     [self.view.layer addSublayer:shadow];
 
-    self.leftSnapshotView.hidden = YES;
+    self.originFrame = self.view.frame;
 
+    self.leftSnapshotView.hidden = YES;
+    
     UIPanGestureRecognizer *gestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePan:)];
     [self.view addGestureRecognizer:gestureRecognizer];
 
 }
 
-
-- (IBAction)handlePan:(UIPanGestureRecognizer *)recognizer {
+- (void)tapped:(UITapGestureRecognizer *)recognizer {
     CGPoint currentPoint = [recognizer locationInView:self.view];
-    NSLog(@"currentPoint: %@",NSStringFromCGPoint(currentPoint));
-    CGPoint velocity = [recognizer velocityInView:self.view];
-    NSLog(@"velocity: %@",NSStringFromCGPoint(velocity));
-    NSLog(@"recognizer numberOfTouches] = %d",[recognizer numberOfTouches]);
+    NSLog(@"===: %@",NSStringFromCGPoint(currentPoint));
 
-    if (recognizer.state == UIGestureRecognizerStateBegan) {
-        [self touchesBegan];
-        self.previousPoint = currentPoint;
-        NSLog(@"began");
-    } else if (recognizer.state == UIGestureRecognizerStateEnded
-               || recognizer.state == UIGestureRecognizerStateFailed
-               || recognizer.state == UIGestureRecognizerStateCancelled
-               || recognizer.state == UIGestureRecognizerStateCancelled) {
-        [self touchesEnded];
-    } else if (recognizer.state == UIGestureRecognizerStateChanged) {
-//        CGPoint velocity = [recognizer velocityInView:self.view];
+}
+
+- (IBAction)handlePan:(UIPanGestureRecognizer *)gestureRecognizer {
+    if (![self isNeedSwipeResponse]) {
+        return;
+    }
+
+    if ([gestureRecognizer state] == UIGestureRecognizerStateBegan || [gestureRecognizer state] == UIGestureRecognizerStateChanged) {
         
-        [self touchesMovedWithVelocity:velocity currentPoint:currentPoint];
+        [self touchesMovedWithPanGesture:gestureRecognizer];
+    } else if (gestureRecognizer.state == UIGestureRecognizerStateEnded
+               || gestureRecognizer.state == UIGestureRecognizerStateFailed
+               || gestureRecognizer.state == UIGestureRecognizerStateCancelled
+               || gestureRecognizer.state == UIGestureRecognizerStateCancelled) {
+        [self touchesEnded];
     }
     
 }
@@ -148,21 +148,18 @@ static NSString *const snapShotViewKey = @"snapShotViewKey";
     [self shresholdJudge];
 }
 
-- (void)touchesMovedWithVelocity:(CGPoint)velocity currentPoint:(CGPoint)currentPoint{
-    CGPoint prevPoint = self.previousPoint;
-    self.previousPoint = currentPoint;
-    NSLog(@"%@ %@",NSStringFromCGPoint(prevPoint),NSStringFromCGPoint(currentPoint));
-    if (![self isNeedSwipeResponse]) {
+- (void)touchesMovedWithPanGesture:(UIPanGestureRecognizer *)gestureRecognizer {
+    UIView *piece = [gestureRecognizer view];
+    CGPoint translation = [gestureRecognizer translationInView:[piece superview]];
+
+    CGFloat x0 = CGRectGetMinX(piece.frame) + translation.x;
+    if (x0 <= 0 || x0 >= CGRectGetWidth(piece.frame)) {
         return;
     }
-    CGFloat x0 =  - self.firstPoint.x + currentPoint.x;
     
-    if (CGRectGetMinX(self.view.frame) <= 0 && x0 < 0) {
-        return;
-    }
-    CGPoint currentCenter = self.view.center;
-    self.view.center = CGPointMake(currentCenter.x + x0, currentCenter.y);
-    
+    [piece setCenter:CGPointMake([piece center].x + translation.x, [piece center].y)];
+    [gestureRecognizer setTranslation:CGPointZero inView:[piece superview]];
+
     // 前一级ViewController 动画
     UIViewController *topViewController = self.topViewController;
     
@@ -181,108 +178,8 @@ static NSString *const snapShotViewKey = @"snapShotViewKey";
     CGFloat rate = kStartZoomRate + (1 - kStartZoomRate) * r;
     self.leftSnapshotView.transform = CGAffineTransformMakeScale(rate,rate);
     self.leftSnapshotView.layer.mask.backgroundColor = [UIColor colorWithWhite:1 alpha:MAX(r, 0.5)].CGColor;
-    
 
 }
-
-- (void)touchesMovedWithPreviousPoint:(CGPoint)previousPoint currentPoint:(CGPoint)currentPoint {
-    if (![self isNeedSwipeResponse]) {
-        return;
-    }
-    
-//    UITouch *touch = [touches anyObject];
-//    CGPoint previousPoint = [touch previousLocationInView:self.view.window];
-//    CGPoint currentPoint = [touch locationInView:self.view.window];
-    CGFloat x0 = currentPoint.x - previousPoint.x;
-    
-    if (CGRectGetMinX(self.view.frame) <= 0 && x0 < 0) {
-        return;
-    }
-    CGPoint currentCenter = self.view.center;
-    self.view.center = CGPointMake(currentCenter.x + x0, currentCenter.y);
-    
-    // 前一级ViewController 动画
-    UIViewController *topViewController = self.topViewController;
-    
-    if (![self.view.superview.subviews containsObject:self.leftSnapshotView]) {
-        [self.view.superview addSubview:_leftSnapshotView];
-        [self.view.superview insertSubview:_leftSnapshotView belowSubview:self.view];
-    }
-    
-    if (self.leftSnapshotView.hidden) {
-        self.leftSnapshotView.hidden = NO;
-        UIImage *snapshot = [self snapshotForViewController:topViewController];
-        self.leftSnapshotView.image = snapshot;
-    }
-    
-    float r = CGRectGetMinX(self.view.frame) / CGRectGetWidth(self.view.frame);
-    CGFloat rate = kStartZoomRate + (1 - kStartZoomRate) * r;
-    self.leftSnapshotView.transform = CGAffineTransformMakeScale(rate,rate);
-    self.leftSnapshotView.layer.mask.backgroundColor = [UIColor colorWithWhite:1 alpha:MAX(r, 0.5)].CGColor;
-    
-
-}
-
-/*
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-    self.originFrame = self.view.frame;
-}
-
-- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
-    if (![self isNeedSwipeResponse]) {
-        return;
-    }
-    
-    UITouch *touch = [touches anyObject];
-    CGPoint previousPoint = [touch previousLocationInView:self.view.window];
-    CGPoint currentPoint = [touch locationInView:self.view.window];
-    CGFloat x0 = currentPoint.x - previousPoint.x;
-    
-    if (CGRectGetMinX(self.view.frame) <= 0 && x0 < 0) {
-        return;
-    }
-    CGPoint currentCenter = self.view.center;
-    self.view.center = CGPointMake(currentCenter.x + x0, currentCenter.y);
-    
-    // 前一级ViewController 动画
-    UIViewController *topViewController = self.topViewController;
-
-    if (![self.view.superview.subviews containsObject:self.leftSnapshotView]) {
-        [self.view.superview addSubview:_leftSnapshotView];
-        [self.view.superview insertSubview:_leftSnapshotView belowSubview:self.view];
-    }
-    
-    if (self.leftSnapshotView.hidden) {
-        self.leftSnapshotView.hidden = NO;
-        UIImage *snapshot = [self snapshotForViewController:topViewController];
-        self.leftSnapshotView.image = snapshot;
-    }
-    
-    float r = CGRectGetMinX(self.view.frame) / CGRectGetWidth(self.view.frame);
-    CGFloat rate = kStartZoomRate + (1 - kStartZoomRate) * r;
-    self.leftSnapshotView.transform = CGAffineTransformMakeScale(rate,rate);
-    self.leftSnapshotView.layer.mask.backgroundColor = [UIColor colorWithWhite:1 alpha:MAX(r, 0.5)].CGColor;
-    
-}
-
-- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-    if (![self isNeedSwipeResponse]) {
-        return;
-    }
-
-    [self shresholdJudge];
-}
-
-- (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
-    
-    if (![self isNeedSwipeResponse]) {
-        return;
-    }
-    
-    [self shresholdJudge];
-}
- */
-
 
 #pragma mark -
 - (BOOL)isNeedSwipeResponse {
@@ -410,6 +307,7 @@ static NSString *const snapShotViewKey = @"snapShotViewKey";
     self.leftSnapshotView.hidden = YES;
     self.leftSnapshotView.layer.mask.backgroundColor = [UIColor colorWithWhite:1 alpha:0.5].CGColor;
 }
+
 
 - (void)didReceiveMemoryWarning
 {
