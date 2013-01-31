@@ -22,6 +22,7 @@
     [super viewDidLoad];
     
     _tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
+    _tableView.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleHeight;
     _tableView.delegate = self;
     _tableView.dataSource = self;
     _tableView.canCancelContentTouches = YES;
@@ -30,7 +31,7 @@
 //    UIView *aView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 460)];
 //    aView.backgroundColor = [UIColor cyanColor];
 //    [self.view addSubview:aView];
-    
+   /*
     self.view.backgroundColor = [UIColor whiteColor];
 	// Do any additional setup after loading the view, typically from a nib.
     UIButton *pushButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
@@ -54,7 +55,7 @@
     //    [pushButton setImage:[UIImage imageNamed:@"Contact_Buddy_lg.png"] forState:UIControlStateNormal];
     [self.view addSubview:push5Button];
     [push5Button addTarget:self action:@selector(push5:) forControlEvents:UIControlEventTouchUpInside];
-
+*/
 }
 
 - (void)viewWillAppear:(BOOL)animated {

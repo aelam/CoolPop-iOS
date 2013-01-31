@@ -22,7 +22,7 @@ static CGFloat kStartZoomRate = 0.95;
 static NSString *const snapShotKey = @"snapShotKey";
 static NSString *const snapShotViewKey = @"snapShotViewKey";
 
-@interface UISwipeNavigationController ()
+@interface UISwipeNavigationController ()<UIGestureRecognizerDelegate>
 
 @property (nonatomic, assign) CGRect originFrame;
 @property (nonatomic, retain) UIImageView *leftSnapshotView;
@@ -72,16 +72,18 @@ static NSString *const snapShotViewKey = @"snapShotViewKey";
     self.leftSnapshotView.hidden = YES;
     
     UIPanGestureRecognizer *gestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePan:)];
+    gestureRecognizer.delegate = self;
     [self.view addGestureRecognizer:gestureRecognizer];
-
+    [gestureRecognizer release];
+    
 }
 
 - (IBAction)handlePan:(UIPanGestureRecognizer *)gestureRecognizer {
-    if (![self isNeedSwipeResponse]) {
-        return;
-    }
 
-    if ([gestureRecognizer state] == UIGestureRecognizerStateBegan || [gestureRecognizer state] == UIGestureRecognizerStateChanged) {
+    if ([gestureRecognizer state] == UIGestureRecognizerStateBegan) {
+        [self.view endEditing:YES];
+    }
+    else if ([gestureRecognizer state] == UIGestureRecognizerStateBegan || [gestureRecognizer state] == UIGestureRecognizerStateChanged) {
         
         [self touchesMovedWithPanGesture:gestureRecognizer];
     } else if (gestureRecognizer.state == UIGestureRecognizerStateEnded
@@ -116,7 +118,7 @@ static NSString *const snapShotViewKey = @"snapShotViewKey";
 }
 
 - (NSArray *)popToViewController:(UIViewController *)viewController animated:(BOOL)animated {
-    NSArray *popedController = [self popToViewController:viewController animated:animated];
+    NSArray *popedController = [super popToViewController:viewController animated:animated];
     for (UIViewController *vc in popedController) {
         [self removeSnapshotForViewController:vc];
     }
@@ -124,7 +126,7 @@ static NSString *const snapShotViewKey = @"snapShotViewKey";
 }
 
 - (NSArray *)popToRootViewControllerAnimated:(BOOL)animated {
-    NSArray *popedController = [self popToRootViewControllerAnimated:animated];
+    NSArray *popedController = [super popToRootViewControllerAnimated:animated];
     for (UIViewController *vc in popedController) {
         [self removeSnapshotForViewController:vc];
     }
@@ -164,8 +166,11 @@ static NSString *const snapShotViewKey = @"snapShotViewKey";
     if (![self.view.superview.subviews containsObject:self.leftSnapshotView]) {
         [self.view.superview addSubview:_leftSnapshotView];
         [self.view.superview insertSubview:_leftSnapshotView belowSubview:self.view];
+        CGRect rect = self.view.frame;
+        rect.origin.x = 0;
+        _leftSnapshotView.frame = rect;
     }
-    
+
     if (self.leftSnapshotView.hidden) {
         self.leftSnapshotView.hidden = NO;
         UIImage *snapshot = [self snapshotForViewController:topViewController];
@@ -216,8 +221,7 @@ static NSString *const snapShotViewKey = @"snapShotViewKey";
             CGRect rect = self.view.frame;
             rect.origin.x = 0;
             self.view.frame = rect;
-            UIViewController *topViewController = self.topViewController;
-            UIImageView *imageView = [topViewController associativeObjectForKey:snapShotViewKey];
+            UIImageView *imageView = self.leftSnapshotView;
             imageView.transform = CGAffineTransformIdentity;
             imageView.layer.mask.backgroundColor = [UIColor colorWithWhite:1 alpha:1].CGColor;
 
@@ -234,8 +238,11 @@ static NSString *const snapShotViewKey = @"snapShotViewKey";
     if (popSuccess) {
         [self removeSnapshotForViewController:self.topViewController];        
     }
-    
-    self.view.frame = self.originFrame;
+
+    CGRect rect = self.view.frame;
+    rect.origin.x = 0;
+
+    self.view.frame = rect;
 }
 
 #pragma mark - 
@@ -290,6 +297,7 @@ static NSString *const snapShotViewKey = @"snapShotViewKey";
 - (UIImageView *)leftSnapshotView {
     if (_leftSnapshotView == nil) {
         _leftSnapshotView = [[UIImageView alloc] initWithFrame:self.view.bounds];
+        _leftSnapshotView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin| UIViewAutoresizingFlexibleHeight;
         CALayer *mask = [CALayer layer];
         mask.frame = _leftSnapshotView.bounds;
         mask.backgroundColor = [UIColor colorWithWhite:1 alpha:0.5].CGColor;
@@ -304,6 +312,14 @@ static NSString *const snapShotViewKey = @"snapShotViewKey";
     self.leftSnapshotView.image = nil;
     self.leftSnapshotView.hidden = YES;
     self.leftSnapshotView.layer.mask.backgroundColor = [UIColor colorWithWhite:1 alpha:0.5].CGColor;
+}
+
+
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
+    if (![self isNeedSwipeResponse]) {
+        return NO;
+    }
+    return YES;
 }
 
 
