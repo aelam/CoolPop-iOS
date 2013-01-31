@@ -26,8 +26,7 @@ static NSString *const snapShotViewKey = @"snapShotViewKey";
 
 @property (nonatomic, assign) CGRect originFrame;
 @property (nonatomic, retain) UIImageView *leftSnapshotView;
-@property (nonatomic, assign) CGPoint previousPoint;
-@property (nonatomic, assign) CGPoint firstPoint;
+
 
 - (BOOL)isNeedSwipeResponse;
 - (void)shresholdJudge;
@@ -37,6 +36,13 @@ static NSString *const snapShotViewKey = @"snapShotViewKey";
 - (UIImageView *)leftSnapshotView;
 - (void)resetLeftSnapshotView;
 
+- (void)touchesBegan;
+- (void)touchesEnded;
+
+- (void)touchesMovedWithPanGesture:(UIPanGestureRecognizer *)gestureRecognizer;
+
+- (IBAction)handlePan:(UIPanGestureRecognizer *)gestureRecognizer;
+
 
 @end
 
@@ -44,8 +50,6 @@ static NSString *const snapShotViewKey = @"snapShotViewKey";
 
 @synthesize originFrame = _originFrame;
 @synthesize leftSnapshotView = _leftSnapshotView;
-@synthesize previousPoint = _previousPoint;
-@synthesize firstPoint = _firstPoint;
 
 + (NSString *)snapshotCachePath {
     return [NSHomeDirectory() stringByAppendingString:@"/Library/Caches/PopSnapshots"];
@@ -69,12 +73,6 @@ static NSString *const snapShotViewKey = @"snapShotViewKey";
     
     UIPanGestureRecognizer *gestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePan:)];
     [self.view addGestureRecognizer:gestureRecognizer];
-
-}
-
-- (void)tapped:(UITapGestureRecognizer *)recognizer {
-    CGPoint currentPoint = [recognizer locationInView:self.view];
-    NSLog(@"===: %@",NSStringFromCGPoint(currentPoint));
 
 }
 
@@ -309,6 +307,7 @@ static NSString *const snapShotViewKey = @"snapShotViewKey";
 }
 
 
+#pragma mark -
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
